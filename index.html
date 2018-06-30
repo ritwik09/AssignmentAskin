@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="sheet.json"></script>
+	<title>ASSIGNMENT</title>
+</head>
+<body onload="initializeScript()">
+
+	<h1>Chart</h1>
+	<button type="button" onclick="handleTimeTaken()">Time Taken</button>
+	<div id="chartContainer" style="height: 2000px; width: 750px;"></div>
+
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script type="text/javascript">
+
+		var newObj={};
+
+		function initializeScript() {
+
+			for(i = 0; i < data.length; i++)
+			{
+				var userId = data[i].uid;
+				var operatorName = data[i].operator;
+
+
+				// For timeTaken
+				var userTimeTaken = data[i].timeTaken;
+				var timeTakenData = {};
+				if (newObj.timeTaken && Object.keys(newObj.timeTaken).length !== 0) {
+					timeTakenData = newObj.timeTaken;
+				}
+				if (timeTakenData[userTimeTaken]) {
+					var timeTakenValue = timeTakenData[userTimeTaken];
+					timeTakenValue.push({ userId: userId, operatorName: operatorName });
+					timeTakenData[userTimeTaken] = timeTakenValue;
+					newObj.timeTaken = timeTakenData;
+				}
+				else {
+					if (!newObj.timeTaken) {
+						newObj.timeTaken = {};
+					}
+					newObj.timeTaken[userTimeTaken] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+				// For rejectionCount
+				var userRejectionCount = data[i].rejectionCount;
+				var rejectionCountData = {};
+				if (newObj.rejectionCount && Object.keys(newObj.rejectionCount).length !== 0) {
+					rejectionCountData = newObj.rejectionCount;
+				}
+				if (rejectionCountData[userRejectionCount]) {
+					var rejectionCountValue = rejectionCountData[userRejectionCount];
+					rejectionCountValue.push({ userId: userId, operatorName: operatorName });
+					rejectionCountData[userRejectionCount] = rejectionCountValue;
+					newObj.rejectionCount = rejectionCountData;
+				}
+				else {
+					if (!newObj.rejectionCount) {
+						newObj.rejectionCount = {};
+					}
+					newObj.rejectionCount[userRejectionCount] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+				// For machine
+				var usermachine = data[i].machine;
+				var machineData = {};
+				if (newObj.machine && Object.keys(newObj.machine).length !== 0) {
+					machineData = newObj.machine;
+				}
+				if (machineData[usermachine]) {
+					var machineValue = machineData[usermachine];
+					machineValue.push({ userId: userId, operatorName: operatorName });
+					machineData[usermachine] = machineValue;
+					newObj.rejectionCount = rejectionCountData;
+				}
+				else {
+					if (!newObj.machine) {
+						newObj.machine = {};
+					}
+					newObj.machine[usermachine] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+				// For inspectedAT
+
+				var userInspectedAt = data[i].inspectedAt;
+				var inspectedData = {};
+				if (newObj.inspectedAT && Object.keys(newObj.inspectedAT).length !== 0) {
+					inspectedData = newObj.inspectedAT;
+				}
+				if (inspectedData[userInspectedAt]) {
+					var inspectedAtValue = inspectedData[userInspectedAt];
+					inspectedAtValue.push({ userId: userId, operatorName: operatorName });
+					inspectedData[userInspectedAt] = inspectedAtValue;
+					newObj.inspectedAT = inspectedData;
+				}
+				else {
+					if (!newObj.inspectedAT) {
+						newObj.inspectedAT = {};
+					}
+					newObj.inspectedAT[userInspectedAt] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+				// For fpa
+
+				var userFpa = data[i].fpa;
+				var fpaData = {};
+				if (newObj.fpa && Object.keys(newObj.fpa).length !== 0) {
+					fpaData = newObj.fpa;
+				}
+				if (fpaData[userFpa]) {
+					var fpaValue = fpaData[userFpa];
+					fpaValue.push({ userId: userId, operatorName: operatorName });
+					fpaData[userFpa] = fpaValue;
+					newObj.fpa = fpaData;
+				}
+				else {
+					if (!newObj.fpa) {
+						newObj.fpa = {};
+					}
+					newObj.fpa[userFpa] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+			//for reasonFpa
+
+			var userReasonFpa = data[i].reasonFpa;
+				var reasonFpaData = {};
+				if (newObj.reasonFpa && Object.keys(newObj.reasonFpa).length !== 0) {
+					reasonFpaData = newObj.reasonFpa;
+				}
+				if (reasonFpaData[userReasonFpa]) {
+					var reasonFpaValue = reasonFpaData[userReasonFpa];
+					reasonFpaValue.push({ userId: userId, operatorName: operatorName });
+					reasonFpaData[userReasonFpa] = reasonFpaValue;
+					newObj.reasonFpa = reasonFpaData;
+				}
+				else {
+					if (!newObj.reasonFpa) {
+						newObj.reasonFpa = {};
+					}
+					newObj.reasonFpa[userReasonFpa] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+
+				//For operator
+
+				var userOperator = data[i].operator;
+				var operatorData = {};
+				if (newObj.operator && Object.keys(newObj.operator).length !== 0) {
+					operatorData = newObj.operator;
+				}
+				if (operatorData[userOperator]) {
+					var operatorValue = operatorData[userOperator];
+					operatorValue.push({ userId: userId, operatorName: operatorName });
+					operatorData[userOperator] = operatorValue;
+					newObj.operator = operatorData;
+				}
+				else {
+					if (!newObj.operator) {
+						newObj.operator = {};
+					}
+					newObj.operator[userOperator] = [{ userId: userId, operatorName: operatorName }];
+				}
+
+
+				// For checkPoints
+				var checkPointsArr = data[i].checkpoints;
+				for (j = 0; j < checkPointsArr.length; j++) {
+
+					// For instrumentId
+					var userInstrumentId = checkPointsArr[j].instrumentId;
+					var instrumentIdData = {};
+
+					if (newObj.instrumentId && Object.keys(newObj.instrumentId).length !== 0) {
+						instrumentIdData = newObj.instrumentId;
+					}
+					if (instrumentIdData[userInstrumentId]) {
+						var instrumentIdValue = instrumentIdData[userInstrumentId];
+						instrumentIdValue.push({ userId: userId, operatorName: operatorName });
+						instrumentIdData[userInstrumentId] = instrumentIdValue;
+						newObj.instrumentId = instrumentIdData;
+					}
+					else {
+						if (!newObj.instrumentId) {
+							newObj.instrumentId = {};
+						}
+						newObj.instrumentId[userInstrumentId] = [{ userId: userId, operatorName: operatorName }];
+					}
+
+
+					// For instrumentGroupId
+					var instruments = checkPointsArr[j].instruments;
+					if (instruments) {
+						for (k = 0; k < instruments.length; k++) {
+							var userInstrumentGroupId = instruments[k].instrumentGroupId;
+							var instrumentGroupIdData = {};
+							if (newObj.instrumentGroupId && Object.keys(newObj.instrumentGroupId).length !== 0) {
+								instrumentGroupIdData = newObj.instrumentGroupId;
+							}
+							if (instrumentGroupIdData[userInstrumentGroupId]) {
+								var instrumentGroupIdValue = instrumentGroupIdData[userInstrumentGroupId];
+								instrumentGroupIdValue.push({ userId: userId, operatorName: operatorName });
+								instrumentGroupIdData[userInstrumentGroupId] = instrumentGroupIdValue;
+								newObj.instrumentGroupId = instrumentGroupIdData;
+							}
+							else {
+								if (!newObj.instrumentGroupId) {
+									newObj.instrumentGroupId = {};
+								}
+								newObj.instrumentGroupId[userInstrumentGroupId] = [{ userId: userId, operatorName: operatorName }];
+							}
+						}
+					}
+				}
+
+
+			}
+
+		}
+
+
+		function handleTimeTaken() {
+			var dataPointsValue = [];
+			var timeTakenKeys = Object.keys(newObj.timeTaken);
+			for (i = 0; i < timeTakenKeys.length; i++) {
+				var timeTakenValues = newObj.timeTaken[timeTakenKeys[i]];
+				var singleObj = {};
+				for (j = 0; j < timeTakenValues.length; j++) {
+					singleObj = { y: parseInt(timeTakenKeys[i], 10), label: timeTakenValues[j].operatorName };
+					dataPointsValue.push(singleObj);
+				}
+			}
+			var chart = new CanvasJS.Chart("chartContainer", {
+				animationEnabled: true,
+				
+				title:{
+					text:"User time taken details"
+				},
+				axisX:{
+					title: "Operators",
+					interval: 1
+				},
+				axisY2:{
+					interlacedColor: "rgba(1,77,101,.2)",
+					gridColor: "rgba(1,77,101,.1)",
+					title: "Time Taken Value"
+				},
+				data: [{
+					type: "bar",
+					name: "Users",
+					axisYType: "secondary",
+					color: "#014D65",
+					dataPoints: dataPointsValue,
+				}]
+			});
+			chart.render();
+		}
+
+
+	</script>
+</body>
+</html>
